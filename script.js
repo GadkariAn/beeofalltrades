@@ -5,9 +5,9 @@ let player1Score = 0;
 let player2Score = 0;
 let music;
 
-class StartScene extends Phaser.Scene {
+class FBStartScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'StartScene' });
+    super({ key: 'FBStartScene' });
   }
 
   preload() {
@@ -21,30 +21,30 @@ class StartScene extends Phaser.Scene {
     const pentagon = this.add.image(400, 300, 'pentagon').setInteractive().setScale(0.23);
     this.add.text(400, 300, 'Bee of all trades', { color: '#000000' }).setOrigin(0.5).setScale(0.8);
     pentagon.on('pointerdown', () => {
-      this.scene.start('Player1ReadyScene');
+      this.scene.start('FBPlayer1ReadyScene');
     });
     music = this.sound.add('music');
     music.play({ loop: true });
   }
 }
 
-class Player1ReadyScene extends Phaser.Scene {
+class FBPlayer1ReadyScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'Player1ReadyScene' });
+    super({ key: 'FBPlayer1ReadyScene' });
   }
 
   create() {
     this.add.image(400, 300, 'background').setScale(0.5);
     this.add.text(400, 300, 'Get ready Player 1', { color: '#000000' }).setOrigin(0.5);
     this.time.delayedCall(3000, () => {
-      this.scene.start('MainScene');
+      this.scene.start('FBMainScene');
     });
   }
 }
 
-class MainScene extends Phaser.Scene {
+class FBMainScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'MainScene' });
+    super({ key: 'FBMainScene' });
   }
 
   preload() {
@@ -60,21 +60,21 @@ class MainScene extends Phaser.Scene {
     bee.on('pointerdown', () => {
       endTime = new Date();
       reactionTime = (endTime - startTime) /1000;
-      this.scene.start('Player2ReadyScene', { player1ReactionTime: reactionTime });
+      this.scene.start('FBPlayer2ReadyScene', { player1ReactionTime: reactionTime });
     });
 
-     setTimeout(() => {
-       bee.x = Math.random() * this.game.config.width;
-       bee.y = Math.random() * this.game.config.height;
-       bee.visible = true;
-       startTime = new Date();
-     }, Math.random() * 10000);
+    setTimeout(() => {
+        bee.x = Math.random() * this.game.config.width;
+        bee.y = Math.random() * this.game.config.height;
+        bee.visible = true;
+        startTime = new Date();
+    }, Math.random() * 10000);
   }
 }
 
-class Player2ReadyScene extends Phaser.Scene {
+class FBPlayer2ReadyScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'Player2ReadyScene' });
+    super({ key: 'FBPlayer2ReadyScene' });
   }
 
   init(data) {
@@ -85,14 +85,14 @@ class Player2ReadyScene extends Phaser.Scene {
     this.add.image(400,300,'background').setScale(.5);
     this.add.text(400,300,'Get ready Player2',{color:'#000000'}).setOrigin(.5);
     this.time.delayedCall(3000,()=>{
-      this.scene.start('Player2Scene',{player1ReactionTime:this.player1ReactionTime});
+      this.scene.start('FBPlayer2Scene',{player1ReactionTime:this.player1ReactionTime});
     });
   }
 }
 
-class Player2Scene extends Phaser.Scene{
+class FBPlayer2Scene extends Phaser.Scene{
   constructor(){
-    super({key:'Player2Scene'});
+    super({key:'FBPlayer2Scene'});
   }
 
   init(data){
@@ -100,8 +100,8 @@ class Player2Scene extends Phaser.Scene{
   }
 
   preload(){
-  this.load.image('background','images/background.png');
-  this.load.image('bee','images/bee.png');
+    this.load.image('background','images/background.png');
+    this.load.image('bee','images/bee.png');
   }
 
   create(){
@@ -113,43 +113,43 @@ class Player2Scene extends Phaser.Scene{
       endTime=new Date();
       reactionTime=(endTime-startTime)/1000;
       if(reactionTime<this.player1ReactionTime){
-      player2Score++;
-      console.log('Player2 won!');
+        player2Score++;
+        console.log('Player2 won!');
       }else{
-      player1Score++;
-      console.log('Player1 won!');
+        player1Score++;
+        console.log('Player1 won!');
       }
       // Add code here to handle the end of the game
       // Transition to the next minigame
-      this.scene.start('NextMinigameReadyScene');
+      this.scene.start('DBNextMinigameReadyScene');
     });
 
     setTimeout(()=>{
-    bee.x=Math.random()*this.game.config.width;
-    bee.y=Math.random()*this.game.config.height;
-    bee.visible=true;
-    startTime=new Date();
+      bee.x=Math.random()*this.game.config.width;
+      bee.y=Math.random()*this.game.config.height;
+      bee.visible=true;
+      startTime=new Date();
     },Math.random()*10000)
   }
 }
 
-class NextMinigameReadyScene extends Phaser.Scene{
+class DBNextMinigameReadyScene extends Phaser.Scene{
   constructor(){
-  super({key:'NextMinigameReadyScene'});
+  super({key:'DBNextMinigameReadyScene'});
   }
 
   create(){
     this.add.image(400,300,'background').setScale(.5);
     this.add.text(400,300,'Get ready Player 1',{color:'#000000'}).setOrigin(.5);
     this.time.delayedCall(3000,()=>{
-    this.scene.start('NextMinigameScene');
+    this.scene.start('DBNextMinigameScene');
     });
   }
 }
 
-class NextMinigameScene extends Phaser.Scene{
+class DBNextMinigameScene extends Phaser.Scene{
   constructor(){
-    super({key:'NextMinigameScene'});
+    super({key:'DBNextMinigameScene'});
   }
 
   preload(){
@@ -172,7 +172,7 @@ const config={
   type:Phaser.AUTO,
   width:800,
   height:600,
-  scene:[StartScene,Player1ReadyScene,MainScene,Player2ReadyScene,Player2Scene,NextMinigameReadyScene,NextMinigameScene]
+  scene:[FBStartScene,FBPlayer1ReadyScene,FBMainScene,FBPlayer2ReadyScene,FBPlayer2Scene,DBNextMinigameReadyScene,DBNextMinigameScene]
 };
 
 const game=new Phaser.Game(config);
