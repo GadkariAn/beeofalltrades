@@ -64,10 +64,10 @@ class FBMainScene extends Phaser.Scene {
     });
 
     setTimeout(() => {
-        bee.x = Math.random() * this.game.config.width;
-        bee.y = Math.random() * this.game.config.height;
-        bee.visible = true;
-        startTime = new Date();
+      bee.x = Math.random() * this.game.config.width;
+      bee.y = Math.random() * this.game.config.height;
+      bee.visible = true;
+      startTime = new Date();
     }, Math.random() * 10000);
   }
 }
